@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>تحميل تطبيق مهامي اليومية</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#0f766e,#0b3d3a);font-family:"Segoe UI",Tahoma,Arial,sans-serif;color:#fff;padding:24px}
+.card{text-align:center;max-width:460px;width:100%;padding:40px 26px;border:2px solid #e9c46a;border-radius:28px;background:rgba(0,0,0,.2)}
+h1{font-size:30px;margin-bottom:8px}p{font-size:20px;line-height:1.7;margin:10px 0 24px}
+.btn{display:inline-block;background:#e9c46a;color:#1d1503;font:inherit;font-size:22px;font-weight:700;text-decoration:none;padding:14px 44px;border-radius:999px}
+.web{display:block;margin-top:20px;color:#e9c46a;font-size:17px}
+.st{display:none;margin-top:24px}.txt{font-size:20px;color:#e9c46a;margin-bottom:10px}
+.track{height:10px;border-radius:999px;background:rgba(255,255,255,.2);overflow:hidden}.fill{height:100%;width:0;background:#e9c46a;transition:width .15s}
+</style></head><body><div class="card">
+<h1>مهامي اليومية</h1><p>اكتب مهامك كل صبح وعلّم على اللي خلص</p>
+<a class="btn" href="Daily-Tasks.apk" onclick="return dl(event)">⬇ تحميل التطبيق</a>
+<a class="web" href="app/">أو افتحه على المتصفح بدون تحميل</a>
+<div class="st" id="st"><div class="txt" id="txt"></div><div class="track"><div class="fill" id="fill"></div></div></div>
+</div><script>
+var DL='Daily-Tasks.apk',busy=false;
+function ar(n){return n.toLocaleString('ar-EG')}
+async function dl(e){e.preventDefault();if(busy)return false;busy=true;
+var st=document.getElementById('st'),txt=document.getElementById('txt'),fill=document.getElementById('fill');
+st.style.display='block';fill.style.width='0%';txt.textContent='جاري التنزيل...';
+try{var r=await fetch(DL);if(!r.ok||!r.body)throw 0;var total=+r.headers.get('content-length')||21123;
+var rd=r.body.getReader(),ch=[],got=0;
+for(;;){var x=await rd.read();if(x.done)break;ch.push(x.value);got+=x.value.length;var p=Math.min(99,Math.round(got/total*100));fill.style.width=p+'%';txt.textContent='جاري التنزيل... '+ar(p)+'٪'}
+var u=URL.createObjectURL(new Blob(ch,{type:'application/vnd.android.package-archive'})),a=document.createElement('a');
+a.href=u;a.download=DL;document.body.appendChild(a);a.click();a.remove();
+fill.style.width='100%';txt.textContent='تم التحميل ✅ افتح الملف عشان يبدأ التثبيت'}
+catch(err){location.href=DL}
+busy=false;return false}
+</script></body></html>
